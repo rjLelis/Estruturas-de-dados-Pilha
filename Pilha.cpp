@@ -14,16 +14,19 @@ void pop();// Exclue um valor no topo da pilha
 int top();// Lista o valor do topo
 void listagem();// Lista todos os elementos da pilha
 bool veri(int v);// Verifica se um dado valor está na pilha
+int cont_elemento(int v);// Verifica quantas vezes um dado aparece na pilha
 
 // Programa principal
 main(){
 	int op,v;
+	bool ve;
 	do{
 		cout << "1 - Empilhar\n";
 		cout << "2 - Desempilhar\n";
 		cout << "3 - Topo\n";
 		cout << "4 - Lista total\n";
 		cout << "5 - Verificar se um valor esta na pilha\n";
+		cout << "6 - Verificar quantas vezes um valor se repete\n";
 		cout << "0 - Sair\n";
 		cin >> op;
 		switch(op){
@@ -49,12 +52,17 @@ main(){
 			case 5:
 				cout << "Digite um valor para verificar: ";
 				cin >> v;
-				bool ve = veri(v);
+				ve = veri(v);
 				if(ve){
 					cout << "O valor consta na lista!\n";
 				} else{
 					cout << "O valor nao consta na lista\n";
 				}
+				break;
+			case 6:
+				cout << "Digite um valor para a contagem: ";
+				cin >> v;
+				cout << "Quantidade de vezes que esse elemento aparece na pilha: " << cont_elemento(v) << "\n";
 				break;
 			default:
 				cout << "Opcao invalida\n";
@@ -130,5 +138,22 @@ bool veri(int v){
 		return verificado;
 	} else {
 		cout << "Lista vazia!";
+	}
+}
+
+// Verifica a quantidade de vezes que o elemento aparece na pilha
+int cont_elemento(int v){
+	if(prim != NULL){
+		int cont = 0;
+		aux = prim;	
+		while(aux != NULL){
+			if(aux->valor == v){
+				cont++;
+			}
+			aux = aux->prox;
+		}
+		return cont;
+	} else{
+		cout << "Lista vazia\n";
 	}
 }
