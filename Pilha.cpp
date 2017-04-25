@@ -16,6 +16,7 @@ void listagem();// Lista todos os elementos da pilha
 bool veri(int v);// Verifica se um dado valor está na pilha
 int cont_elemento(int v);// Verifica quantas vezes um dado aparece na pilha
 int totElementos();// Retorna o total de elementos da pilha
+void printPar();// Imprime todos o elementos pares de uma pilha
 
 // Programa principal
 main(){
@@ -29,9 +30,13 @@ main(){
 		cout << "5 - Verificar se um valor esta na pilha\n";
 		cout << "6 - Verificar quantas vezes um valor se repete\n";
 		cout << "7 - Total de elementos\n";
+		cout << "8 - Imprimir todos os elementos pares\n";
 		cout << "0 - Sair\n";
 		cin >> op;
 		switch(op){
+			case 0:
+				cout << "FINALIZANDO ...\n";
+				break;
 			case 1:
 				cout << "Digite um valor: ";
 				cin >> v;
@@ -70,10 +75,14 @@ main(){
 				v = totElementos();
 				cout << "Total de elementos na pilha: " << v << "\n";
 				break;
+			case 8:
+				printPar();
+				break;
 			default:
 				cout << "Opcao invalida\n";
 		}
 	}while(op != 0);
+	cout << "PROGRAMA FINALIZADO";
 }
 
 //Inclusão no topo
@@ -173,4 +182,18 @@ int totElementos(){
 		aux = aux->prox;
 	}
 	return cont;
+}
+
+// Imprime todos os elementos pares
+void printPar(){
+	if(prim != NULL){
+		aux = prim;
+		cout << "Valores pares: \n";
+		while(aux != NULL){
+			if(aux->valor % 2 == 0)	{
+				cout << aux->valor << endl;
+			}
+			aux = aux->prox;
+		}
+	}
 }
