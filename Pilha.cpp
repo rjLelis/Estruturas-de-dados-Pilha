@@ -15,6 +15,7 @@ int top();// Lista o valor do topo
 void listagem();// Lista todos os elementos da pilha
 bool veri(int v);// Verifica se um dado valor está na pilha
 int cont_elemento(int v);// Verifica quantas vezes um dado aparece na pilha
+int totElementos();// Retorna o total de elementos da pilha
 
 // Programa principal
 main(){
@@ -27,6 +28,7 @@ main(){
 		cout << "4 - Lista total\n";
 		cout << "5 - Verificar se um valor esta na pilha\n";
 		cout << "6 - Verificar quantas vezes um valor se repete\n";
+		cout << "7 - Total de elementos\n";
 		cout << "0 - Sair\n";
 		cin >> op;
 		switch(op){
@@ -63,6 +65,10 @@ main(){
 				cout << "Digite um valor para a contagem: ";
 				cin >> v;
 				cout << "Quantidade de vezes que esse elemento aparece na pilha: " << cont_elemento(v) << "\n";
+				break;
+			case 7:
+				v = totElementos();
+				cout << "Total de elementos na pilha: " << v << "\n";
 				break;
 			default:
 				cout << "Opcao invalida\n";
@@ -156,4 +162,15 @@ int cont_elemento(int v){
 	} else{
 		cout << "Lista vazia\n";
 	}
+}
+
+// Retorna o total de elementos da pilha
+int totElementos(){
+	int cont = 0;
+	aux = prim;
+	while(aux != NULL){
+		cont++;
+		aux = aux->prox;
+	}
+	return cont;
 }
