@@ -1,94 +1,121 @@
 #include<iostream>
 #include<stdlib.h>
 using namespace std;
-
-// Estrutura da pilha
-struct pilha{
+//Registros
+struct itemPilha{
 	int valor;
-	struct pilha *prox;
-}*prim,*ult,*aux;
+	struct itemPilha *prox;
+}*prim,*ult,*primaux,*ultaux;
+//Assinaturas
+void push(int v);
+void pop();
+int top();
+//Assinaturas auxiliares
+void pushAux(int v);
+void popAux();
+int topAux();
+//Funções do exercício
+int verifica(int v);
+int ContaValor(int v);
+void esvaziar();
+int ContaElemento();
+void ContaPar();
 
-// Assinaturas das funções
-void push(int v);// Inclue um valor no topo da pilha
-void pop();// Exclue um valor no topo da pilha
-int top();// Lista o valor do topo
-void listagem();// Lista todos os elementos da pilha
-bool veri(int v);// Verifica se um dado valor está na pilha
-int cont_elemento(int v);// Verifica quantas vezes um dado aparece na pilha
-int totElementos();// Retorna o total de elementos da pilha
-void printPar();// Imprime todos o elementos pares de uma pilha
-
-// Programa principal
 main(){
 	int op,v;
-	bool ve;
 	do{
-		cout << "1 - Empilhar\n";
-		cout << "2 - Desempilhar\n";
-		cout << "3 - Topo\n";
-		cout << "4 - Lista total\n";
-		cout << "5 - Verificar se um valor esta na pilha\n";
-		cout << "6 - Verificar quantas vezes um valor se repete\n";
-		cout << "7 - Total de elementos\n";
-		cout << "8 - Imprimir todos os elementos pares\n";
-		cout << "0 - Sair\n";
+		system("CLS");
+		cout << "1 - Push\n";
+		cout << "2 - Pop\n";
+		cout << "3 - Top\n";
+		cout << "4 - Verificar se um numero esta na pilha\n";
+		cout << "5 - Contar quantas vezes um elemento se repeta na pilha\n";
+		cout << "6 - Esvaziar\n";
+		cout << "7 - Contar quantos elementos tem na pilha\n";
+		cout << "8 - Mostrar os elementos pares da pilha\n";
+		cout << "0 - Sair\n\n";
+		cout << ">>> ";
 		cin >> op;
-		switch(op){
-			case 0:
-				cout << "FINALIZANDO ...\n";
-				break;
-			case 1:
-				cout << "Digite um valor: ";
-				cin >> v;
-				push(v);
-				break;
-			case 2:
+		if(op == 1){
+			system("CLS");
+			cout << "Digite um valor para empilhar: ";
+			cin >> v;
+			push(v);
+		}else if(op == 2){
+			system("CLS");
+			if(top() != -1){
+				cout << "O valor " << top() << " foi desimpilhado\n";
 				pop();
-				break;
-			case 3:
-				v = top();
-				if(v != -1){
-					cout << "Topo: " << v << "\n";
-				} else{
-					cout << "Pilha vazia\n";
-				}
-				break;
-			case 4:
-				listagem();
-				break;
-			case 5:
-				cout << "Digite um valor para verificar: ";
+			} else{
+				cout << "Pilha vazia\n";
+			}
+			system("pause");
+		} else if(op == 3){
+			system("CLS");
+			if(top() != -1){
+				cout << "O valor " << top() << " esta no topo\n";
+			} else{
+				cout << "Pilha vazia\n";
+			}
+			system("pause");
+		} else if(op == 4){
+			system("CLS");
+			if(top() != -1){
+				cout << "Digite um numero para verificar: ";
 				cin >> v;
-				ve = veri(v);
-				if(ve){
-					cout << "O valor consta na lista!\n";
+				if(verifica(v) == 1){
+					cout << "O valor digitado ESTA na pilha\n";
 				} else{
-					cout << "O valor nao consta na lista\n";
+					cout << "O valor digitado NAO ESTA na pilha\n";
 				}
-				break;
-			case 6:
-				cout << "Digite um valor para a contagem: ";
+			} else{
+				cout << "Pilha vazia\n";
+			}
+			system("pause");
+		} else if(op == 5){
+			system("CLS");
+			if(top() != -1){
+				cout << "Digite um elemento para verificar: ";
 				cin >> v;
-				cout << "Quantidade de vezes que esse elemento aparece na pilha: " << cont_elemento(v) << "\n";
-				break;
-			case 7:
-				v = totElementos();
-				cout << "Total de elementos na pilha: " << v << "\n";
-				break;
-			case 8:
-				printPar();
-				break;
-			default:
-				cout << "Opcao invalida\n";
+				cout << "O valor digitado se repete " << ContaValor(v) << " vezes\n";
+			} else{
+				cout << "Pilha vazia\n";
+			}
+			system("pause");
+		} else if(op == 6){
+			system("CLS");
+			if(top() != -1){
+				esvaziar();
+				cout << "Pilha esvaziada\n";
+			} else{
+				cout << "A pilha ja esta vazia\n";
+			}
+			system("pause");
+		} else if(op == 7){
+			system("CLS");
+			if(top() != -1){
+				cout << "A pilha tem " << ContaElemento() << " elementos\n";
+			} else{
+				cout << "A pilha vazia\n";
+			}
+			system("pause");
+		} else if(op == 8){
+			system("CLS");
+			if(top() != -1){
+				cout << "Elementos pares na pilha: \n";
+				ContaPar();
+			} else{
+				cout << "A pilha vazia\n";
+			}
+			system("pause");
 		}
 	}while(op != 0);
-	cout << "PROGRAMA FINALIZADO";
 }
 
-//Inclusão no topo
 void push(int v){
-	aux = (struct pilha *)malloc(sizeof(struct pilha));
-	if(ult == NULL){
+	struct itemPilha *aux;
+	aux = (struct itemPilha *) malloc(sizeof(struct itemPilha));
+	if(!ult){
 		ult = aux;
 	} else{
 		aux->prox = prim;
@@ -96,104 +123,146 @@ void push(int v){
 	prim = aux;
 	prim->valor = v;
 	ult->prox = NULL;
-	cout << "Elemento empilhado!\n";
 }
 
-// Exclusão do topo
 void pop(){
-	if(prim != NULL){
+	struct itemPilha *aux;
+	if(!prim){
+		cout << "Pilha vazia\n";
+	} else{
 		aux = prim;
 		if(prim == ult){
 			prim = ult = NULL;
 		} else{
 			prim = prim->prox;
 		}
-		cout << "Topo desempilhado: " << aux->valor << "\n";
 		free(aux);
-	} else{
-		cout << "Pilha Vazia\n";
 	}
 }
 
-// Listagem do valor do topo
 int top(){
-	if(prim != NULL){
-		return (prim->valor);
+	if(!prim){
+		return(-1);
 	} else{
+		return(prim->valor);
+	}
+}
+
+void pushAux(int v){
+	struct itemPilha *aux;
+	aux = (struct itemPilha *) malloc(sizeof(struct itemPilha));
+	if(!ultaux){
+		ultaux = aux;
+	} else{
+		aux->prox = primaux;
+	}
+	primaux = aux;
+	primaux->valor = v;
+	ultaux->prox = NULL;
+}
+
+void popAux(){
+	struct itemPilha *aux;
+	if(!primaux){
+		cout << "Pilha vazia";
+	} else{
+		aux = primaux;
+		if(primaux == ultaux){
+			primaux = ultaux = NULL;
+		} else{
+			primaux = primaux->prox;
+		}
+		free(aux);
+	}
+}
+
+int topAux(){
+	if(!primaux){
 		return (-1);
-	}
-}
-
-// Listagem de toda a pilha
-void listagem(){
-	if(prim != NULL){
-		aux = prim;
-		cout << "Valores na pilha\n";
-		while(aux != NULL){
-			cout << aux->valor << "\n";
-			aux = aux->prox;
-		}
 	} else{
-		cout << "Pilha vazia\n";
+		return (primaux->valor);
 	}
 }
 
-// Verificar um dado elemento na pilha
-bool veri(int v){
-	if(prim != NULL){
-		aux = prim;
-		bool verificado = false;
-		while(aux != NULL){
-			if(aux->valor == v){
-				verificado = true;
-				break;
-			}
-			aux = aux->prox;
+int verifica(int v){
+	int aux = -1,achei = 0;
+	primaux = ultaux = NULL;
+	aux = top();
+	while(top() != -1){
+		if(aux == v)
+			achei = 1;
+		pushAux(top());
+		pop();
+		aux = top();
+	}
+	while(topAux() != -1){
+		push(topAux());
+		popAux();
+	}
+	
+	if(achei == 1)
+		return (1);
+	 else
+		return (0);
+}
+
+int ContaValor(int v){
+	int aux = -1,cont = 0;
+	primaux = ultaux = NULL;
+	aux = top();
+	while(top() != -1){
+		if(aux == v){
+			cont++;
 		}
-		return verificado;
-	} else {
-		cout << "Lista vazia!";
+		pushAux(top());
+		pop();
+		aux = top();
 	}
-}
-
-// Verifica a quantidade de vezes que o elemento aparece na pilha
-int cont_elemento(int v){
-	if(prim != NULL){
-		int cont = 0;
-		aux = prim;	
-		while(aux != NULL){
-			if(aux->valor == v){
-				cont++;
-			}
-			aux = aux->prox;
-		}
-		return cont;
-	} else{
-		cout << "Lista vazia\n";
-	}
-}
-
-// Retorna o total de elementos da pilha
-int totElementos(){
-	int cont = 0;
-	aux = prim;
-	while(aux != NULL){
-		cont++;
-		aux = aux->prox;
+	while(topAux() != -1){
+		push(topAux());
+		popAux();
 	}
 	return cont;
 }
 
-// Imprime todos os elementos pares
-void printPar(){
-	if(prim != NULL){
-		aux = prim;
-		cout << "Valores pares: \n";
-		while(aux != NULL){
-			if(aux->valor % 2 == 0)	{
-				cout << aux->valor << endl;
-			}
-			aux = aux->prox;
-		}
+void esvaziar(){
+	while(top() != -1){
+		pop();
 	}
+}
+
+int ContaElemento(){
+	int aux,cont = 0;
+	primaux = ultaux = NULL;
+	aux = top();
+	while(top() != -1){
+		cont++;
+		pushAux(top());
+		pop();
+		aux = top();
+	}
+	while(topAux() != -1){
+		push(topAux());
+		popAux();
+	}
+	return cont;
+}
+
+void ContaPar(){
+	int aux;
+	primaux = ultaux = NULL;
+	aux = top();
+	while(top() != -1){
+		if(aux % 2 == 0){
+			cout << aux << endl;
+		}
+		pushAux(top());
+		pop();
+		aux = top();
+	}
+	while(topAux() != -1){
+		push(topAux());
+		popAux();
+	}
+	
 }
